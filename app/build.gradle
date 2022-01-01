@@ -12,7 +12,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        buildConfigField("String","API_KEY","\"f5dc38e841fe80209dc676baf4fd491f\"")
+        buildConfigField("String", "API_KEY", "\"f5dc38e841fe80209dc676baf4fd491f\"")
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
