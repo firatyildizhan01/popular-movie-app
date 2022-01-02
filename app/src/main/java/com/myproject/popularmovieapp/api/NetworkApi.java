@@ -23,7 +23,7 @@ public class NetworkApi {
 
     private static final String TAG = NetworkApi.class.getName();
 
-    //TODO: Add your API key from themoviedb.org here!
+
     private final static String apiKey = "f5dc38e841fe80209dc676baf4fd491f";
 
     private final static String MOVIEDB_BASE_URL = "https://api.themoviedb.org/3/";
@@ -34,7 +34,7 @@ public class NetworkApi {
     private final static String IMAGE_SIZE = "w500";
     private static final Uri YOUTUBE_BASE_URL = Uri.parse("https://www.youtube.com/watch");
 
-    //Built the URL for the API call
+
     public static URL buildMovieUrl(String movieDBUrlString) {
         Uri builtUri = Uri.parse(MOVIEDB_BASE_URL).buildUpon()
                 .appendPath(CATEGORY)
@@ -83,7 +83,7 @@ public class NetworkApi {
         return url;
     }
 
-    //build the URL string for the thumb of the movie poster in the grid
+
     public static String buildThumbString(String movieId) {
         return IMAGE_BASE_URL +
                 IMAGE_SIZE +
@@ -94,7 +94,7 @@ public class NetworkApi {
         return YOUTUBE_BASE_URL + "?v=" + trailerKey;
     }
 
-    // Built the network connection call the API
+
     public static String getResponseFromHttpUrl(URL url) throws IOException {
 
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
@@ -115,7 +115,7 @@ public class NetworkApi {
         }
     }
 
-    // parse the JSON movie data received into an ArrayList<Hashmap>
+
     public static ArrayList<HashMap<String, String>> parseJsonData(String jsonResponse) {
         ArrayList<HashMap<String, String>> parsedMovieData = new ArrayList<>();
 

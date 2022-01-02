@@ -60,28 +60,29 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieListAda
                 .into(holder.mMoviePoster);
 
         holder.mMoviePoster.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), DetailActivity.class);
-                intent.putExtra("movieId", mMovieData.get(position).get("id"));
-                intent.putExtra("originalTitle",mMovieData.get(position).get("originalTitle"));
-                intent.putExtra("releaseDate",mMovieData.get(position).get("releaseDate"));
-                intent.putExtra("userRating", mMovieData.get(position).get("description"));
-                intent.putExtra("moviePosterUrl", urlForThisItem);
+                                                   @Override
+                                                   public void onClick(View view) {
+                                                       Intent intent = new Intent(view.getContext(), DetailActivity.class);
+                                                       intent.putExtra("movieId", mMovieData.get(position).get("id"));
+                                                       intent.putExtra("originalTitle", mMovieData.get(position).get("originalTitle"));
+                                                       intent.putExtra("releaseDate", mMovieData.get(position).get("releaseDate"));
+                                                       intent.putExtra("userRating", mMovieData.get(position).get("description"));
+                                                       intent.putExtra("moviePosterUrl", urlForThisItem);
 
-                view.getContext().startActivity(intent);
+                                                       view.getContext().startActivity(intent);
 
-            }
-        }
+                                                   }
+                                               }
         );
     }
 
     @Override
     public int getItemCount() {
-        if(null == mMovieData) return 0;
-        return  mMovieData.size();
+        if (null == mMovieData) return 0;
+        return mMovieData.size();
     }
-    public void setmMovieData(ArrayList<HashMap<String, String>> movieData){
+
+    public void setmMovieData(ArrayList<HashMap<String, String>> movieData) {
         mMovieData = movieData;
         notifyDataSetChanged();
     }
