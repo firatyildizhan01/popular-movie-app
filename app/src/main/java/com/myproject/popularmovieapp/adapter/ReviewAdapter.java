@@ -24,7 +24,8 @@ public class ReviewAdapter extends ArrayAdapter {
         Review review = (Review) getItem(position);
 
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.review_list_item, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.review_list_item,
+                    parent, false);
         }
 
         TextView reviewName = convertView.findViewById(R.id.tv_review_name);
@@ -35,5 +36,4 @@ public class ReviewAdapter extends ArrayAdapter {
 
         return convertView;
     }
-
 }

@@ -35,6 +35,6 @@ public class Trailer {
                 e.printStackTrace();
             }
         }
-            return trailers;
-        }
+        return trailers;
     }
+}

@@ -15,17 +15,18 @@ import java.util.ArrayList;
 
 public class TrailerAdapter extends ArrayAdapter {
 
-    public TrailerAdapter(Context context, ArrayList<Trailer> trailerList){
-        super(context,0,trailerList);
+    public TrailerAdapter(Context context, ArrayList<Trailer> trailerList) {
+        super(context, 0, trailerList);
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent){
+    public View getView(int position, View convertView, ViewGroup parent) {
 
         Trailer trailer = (Trailer) getItem(position);
 
-        if(convertView == null){
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.trailer_list_item, parent, false);
+        if (convertView == null) {
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.trailer_list_item,
+                    parent, false);
         }
 
         TextView trailerName = convertView.findViewById(R.id.tv_trailer_name);

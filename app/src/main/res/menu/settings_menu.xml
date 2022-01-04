@@ -4,14 +4,4 @@
         android:id="@+id/most_popular_movies"
         android:orderInCategory="1"
         android:title="@string/popular" />
-
-    <item
-        android:id="@+id/best_rated_movies"
-        android:orderInCategory="2"
-        android:title="@string/best_rated" />
-
-    <item
-        android:id="@+id/favorite_movies"
-        android:orderInCategory="3"
-        android:title="@string/favorite_movies" />
 </menu>

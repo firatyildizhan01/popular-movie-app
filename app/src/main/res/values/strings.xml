@@ -2,7 +2,7 @@
     <string name="app_name">popularmovieapp</string>
 
     <string name="error_message">The list is empty!</string>
-    <string name="popular">Most Popular Movies</string>
+    <string name="popular">Popular Movies</string>
     <string name="best_rated">Best Rated Movies</string>
     <string name="favorite_movies">Favorite Movies</string>
     <string name="movie_poster">This is the movie poster</string>

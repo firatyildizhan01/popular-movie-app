@@ -52,7 +52,8 @@
             android:layout_marginStart="10dp"
             android:layout_toEndOf="@id/btn_reviews"
             android:onClick="toggleFavorite"
-            android:padding="10dp" />
+            android:padding="10dp"
+            android:visibility="invisible" />
 
         <Button
             android:id="@+id/btn_reviews"
@@ -67,7 +68,8 @@
             android:id="@+id/tv_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/iv_detail_movie_poster"
+            android:layout_below="@+id/btn_reviews"
+            android:layout_marginTop="5dp"
             android:padding="10dp"
             android:textSize="14sp" />
 
@@ -86,10 +88,10 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_description"
             android:layout_marginTop="20dp"
-            android:paddingEnd="10dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
             android:paddingStart="10dp"
+            android:paddingLeft="10dp"
+            android:paddingEnd="10dp"
+            android:paddingRight="10dp"
             android:text="@string/movie_trailers_title"
             android:textSize="22sp"
             android:textStyle="bold" />
@@ -100,10 +102,10 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/movie_trailerlist_title"
             android:layout_marginTop="10dp"
-            android:paddingEnd="10dp"
+            android:paddingStart="10dp"
             android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingStart="10dp" />
+            android:paddingEnd="10dp"
+            android:paddingRight="10dp" />
 
     </RelativeLayout>
 
