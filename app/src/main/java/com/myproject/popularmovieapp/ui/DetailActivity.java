@@ -110,7 +110,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager
             if (intent != null) {
                 movieId = intent.getStringExtra("movieId");
                 // if  movieId is found in favorites, use the CursorLoader to load data from DB
-                favorite = isFavourite(movieId);
+//                favorite = isFavourite(movieId);
                 if (favorite) {
                     getSupportLoaderManager().initLoader(ID_MOVIE_LOADER, null, this);
                     mSaveButton.setChecked(true);
@@ -188,71 +188,6 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager
     public void onLoaderReset(Loader<Cursor> loader) {
     }
 
-    public void toggleFavorite(View view) {
-        switch (view.getId()) {
-            case R.id.save_button:
-                if (!favorite) {
-                    saveFavourite(movieId, movieTitle, releaseDate, userRating, description,
-                            posterUrl);
-                    mSaveButton.setChecked(true);
-                } else {
-                    removeFavourite(movieId);
-                    mSaveButton.setChecked(false);
-                }
-        }
-    }
-
-    private boolean isFavourite(String movieId) {
-        Cursor cursor = getContentResolver()
-                .query(CONTENT_URI,
-                        new String[]{MovieContract.MovieEntry.COLUMN_MOVIE_ID},
-                        MovieContract.MovieEntry.COLUMN_MOVIE_ID + "=?",
-                        new String[]{movieId}, null);
-        if (cursor != null) {
-            boolean isFavourite = cursor.getCount() > 0;
-            cursor.close();
-            return isFavourite;
-        }
-        return false;
-    }
-
-    private boolean saveFavourite(String movieId, String title, String releaseDate, String
-            userRating, String description, String posterUrl) {
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(MovieContract.MovieEntry.COLUMN_MOVIE_ID, movieId);
-        contentValues.put(COLUMN_MOVIE_NAME, title);
-        contentValues.put(COLUMN_RELEASE_DATE, releaseDate);
-        contentValues.put(COLUMN_RATING, userRating);
-        contentValues.put(COLUMN_DESCRIPTION, description);
-        contentValues.put(COLUMN_MOVIE_POSTER_URL, posterUrl);
-
-        if (getContentResolver().insert(CONTENT_URI, contentValues) != null) {
-            Toast.makeText(getApplicationContext(), "Add movie as favourite!", Toast
-                    .LENGTH_SHORT).show();
-            favorite = isFavourite(movieId);
-            mSaveButton.setChecked(favorite);
-            return true;
-        } else {
-            Toast.makeText(getApplicationContext(), "Add Error!", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-    }
-
-    private boolean removeFavourite(String movieId) {
-        Uri uri = CONTENT_URI.buildUpon().appendPath(movieId).build();
-        int deletedRows = getContentResolver().delete(uri, null, null);
-        if (deletedRows > 0) {
-            Toast.makeText(getApplicationContext(), "Remove movie from favourites!", Toast
-                    .LENGTH_SHORT).show();
-            favorite = isFavourite(movieId);
-            mSaveButton.setChecked(favorite);
-            return true;
-        } else {
-            Toast.makeText(getApplicationContext(), "Remove error!", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-    }
-
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -263,7 +198,6 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager
         outState.putString("description", description);
         outState.putString("moviePosterUrl", posterUrl);
     }
-
 
     private void setListViewHeight(ListView listView) {
         ListAdapter listAdapter = listView.getAdapter();
