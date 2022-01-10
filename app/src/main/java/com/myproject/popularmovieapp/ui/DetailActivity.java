@@ -1,29 +1,21 @@
 package com.myproject.popularmovieapp.ui;
 
-import static com.myproject.popularmovieapp.data.MovieContract.MovieEntry.COLUMN_DESCRIPTION;
-import static com.myproject.popularmovieapp.data.MovieContract.MovieEntry.COLUMN_MOVIE_NAME;
-import static com.myproject.popularmovieapp.data.MovieContract.MovieEntry.COLUMN_MOVIE_POSTER_URL;
-import static com.myproject.popularmovieapp.data.MovieContract.MovieEntry.COLUMN_RATING;
-import static com.myproject.popularmovieapp.data.MovieContract.MovieEntry.COLUMN_RELEASE_DATE;
-import static com.myproject.popularmovieapp.data.MovieContract.MovieEntry.CONTENT_URI;
-
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.ShareActionProvider;
-import androidx.core.view.MenuItemCompat;
+
 import androidx.loader.app.LoaderManager;
-import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
 
-import android.content.ContentValues;
+
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -33,12 +25,12 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
+
 
 import com.myproject.popularmovieapp.R;
 import com.myproject.popularmovieapp.adapter.TrailerAdapter;
 import com.myproject.popularmovieapp.api.NetworkApi;
-import com.myproject.popularmovieapp.data.MovieContract;
+
 import com.myproject.popularmovieapp.model.Trailer;
 import com.squareup.picasso.Picasso;
 
@@ -98,24 +90,8 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager
 
         Intent intent = getIntent();
 
-        if (savedInstanceState != null) {
-            movieId = savedInstanceState.getString("movieId");
-            movieTitle = savedInstanceState.getString("originalTitle");
-            releaseDate = savedInstanceState.getString("releaseDate");
-            userRating = savedInstanceState.getString("userRating");
-            description = savedInstanceState.getString("description");
-            posterUrl = savedInstanceState.getString("moviePosterUrl");
-            setData();
-        } else {
             if (intent != null) {
                 movieId = intent.getStringExtra("movieId");
-                // if  movieId is found in favorites, use the CursorLoader to load data from DB
-//                favorite = isFavourite(movieId);
-                if (favorite) {
-                    getSupportLoaderManager().initLoader(ID_MOVIE_LOADER, null, this);
-                    mSaveButton.setChecked(true);
-                } else {
-                    // if movieId is not found in favorites, take the data from the intent
                     movieTitle = intent.getStringExtra("originalTitle");
                     releaseDate = intent.getStringExtra("releaseDate");
                     userRating = intent.getStringExtra("userRating");
@@ -123,11 +99,10 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager
                     posterUrl = intent.getStringExtra("moviePosterUrl");
                     setData();
                     mSaveButton.setChecked(false);
-                }
+
             } else {
                 mErrorMessageDisplay.isShown();
             }
-        }
 
         mReviewButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -157,46 +132,19 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager
                 .into(mMoviePoster);
     }
 
+    @NonNull
     @Override
-    public Loader<Cursor> onCreateLoader(int loaderId, Bundle bundle) {
-        switch (loaderId) {
-            case ID_MOVIE_LOADER:
-                return new CursorLoader(this,
-                        CONTENT_URI,
-                        null,
-                        MovieContract.MovieEntry.COLUMN_MOVIE_ID + "=?",
-                        new String[]{movieId},
-                        null);
-            default:
-                throw new RuntimeException("Loader not implemented: " + loaderId);
-        }
+    public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
+        return null;
     }
 
     @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-        if (cursor != null && cursor.moveToFirst()) {
-            movieTitle = cursor.getString(cursor.getColumnIndex(COLUMN_MOVIE_NAME));
-            releaseDate = cursor.getString(cursor.getColumnIndex(COLUMN_RELEASE_DATE));
-            userRating = cursor.getString(cursor.getColumnIndex(COLUMN_RATING));
-            description = cursor.getString(cursor.getColumnIndex(COLUMN_DESCRIPTION));
-            posterUrl = cursor.getString(cursor.getColumnIndex(COLUMN_MOVIE_POSTER_URL));
-        }
-        setData();
+    public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
+
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putString("movieId", movieId);
-        outState.putString("originalTitle", movieTitle);
-        outState.putString("releaseDate", releaseDate);
-        outState.putString("userRating", userRating);
-        outState.putString("description", description);
-        outState.putString("moviePosterUrl", posterUrl);
     }
 
     private void setListViewHeight(ListView listView) {
@@ -227,7 +175,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager
                 String jsonResponse = NetworkApi.getResponseFromHttpUrl(trailerUrl);
                 try {
                     JSONObject movieDataObject = new JSONObject(jsonResponse);
-                    JSONArray trailerArray = movieDataObject.getJSONArray("results");
+                     JSONArray trailerArray = movieDataObject.getJSONArray("results");
                     newTrailers = Trailer.fromJson(trailerArray);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -251,17 +199,6 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager
                 mTrailerListView.setAdapter(trailerAdapter);
                 setListViewHeight(mTrailerListView);
 
-                Intent shareMovieIntent = new Intent(Intent.ACTION_SEND);
-                shareMovieIntent.setType("text/plain");
-                shareMovieIntent.putExtra(Intent.EXTRA_TEXT,
-                        "Hey, we should watch this movie: "
-                                + movieTitle + " "
-                                + NetworkApi.youtubeUrlString(trailerList.get(0).link));
-                if (mShareActionProvider != null) {
-                    mShareActionProvider.setShareIntent(shareMovieIntent);
-                } else {
-                    Log.d(TAG, "Kein ShareActionProvider vorhanden!");
-                }
 
                 mTrailerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override

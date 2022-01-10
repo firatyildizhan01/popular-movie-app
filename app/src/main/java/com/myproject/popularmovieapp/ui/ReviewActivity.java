@@ -28,7 +28,6 @@ public class ReviewActivity extends AppCompatActivity {
 
     private ListView mReviews;
     private TextView mErrorMessageDisplay;
-
     private ArrayList<Review> newReviews;
 
     @Override
